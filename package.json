@@ -4,11 +4,21 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/mocha/bin/mocha --require @babel/register 'test/**/*.spec.js'",
+    "watch": "./node_modules/mocha/bin/mocha --watch --require @babel/register 'test/**/*.spec.js'"
   },
   "author": "ajcool2k",
   "license": "MIT",
   "dependencies": {
     "lodash": "^4.17.11"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.4.3",
+    "@babel/core": "^7.4.3",
+    "@babel/node": "^7.2.2",
+    "@babel/preset-env": "^7.4.3",
+    "@babel/register": "^7.4.0",
+    "chai": "^4.2.0",
+    "mocha": "^6.0.2"
   }
 }
