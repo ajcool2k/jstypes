@@ -19,10 +19,20 @@ export const Type = Object.freeze({
   FUNC: Symbol('function')
 })
 
-export const map = function (obj, path, defaultValue, type) {
+export const Req = Object.freeze({
+  REQUIRED: Symbol('REQUIRED'),
+  OPTIONAL: Symbol('OPTIONAL')
+})
+
+export const map = function (obj, path, defaultValue, type, req) {
+  // use default value if no object has been applied (empty constructor)
+  if (typeof obj === 'undefined') return defaultValue
+
   // check object path
   if (has(obj, path) === false) {
-    warn(this, 'Could not parse expect object path: ' + path)
+    // create warning when parameter is not optional
+    if (isRequired(req)) warn(this, 'Could not parse expect object path: ' + path)
+
     return defaultValue
   }
   
@@ -39,6 +49,10 @@ export const map = function (obj, path, defaultValue, type) {
 }
 
 const hasData = (value) => typeof value !== 'undefined' && value !== null
+
+const isRequired = (req) => {
+  return req !== Req.OPTIONAL
+}
 
 const validateType = (value, type) => {
   switch (type) {
@@ -71,4 +85,5 @@ const validateType = (value, type) => {
 const warn = (context, msg) => {
   const callerName = get(context, 'constructor.name', 'unknown')
   console.warn('[' + callerName + '] - ' + msg)
+  context.__problems.push(msg)
 }
