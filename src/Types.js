@@ -31,7 +31,7 @@ export const map = function (obj, path, defaultValue, type, req) {
   // check object path
   if (has(obj, path) === false) {
     // create warning when parameter is not optional
-    if (isRequired(req)) warn(this, 'Could not parse expect object path: ' + path)
+    if (isRequired(req)) warn(this, `Could not parse expect object path: ${path}`)
 
     return defaultValue
   }
@@ -42,8 +42,8 @@ export const map = function (obj, path, defaultValue, type, req) {
   
   // check type
   const isValid = validateType(value, type)
-  if (isValid === false) warn(this, 'Expected Type ' + type.toString() + ' for Object path: ' + path)
-  if (isValid === null) warn(this, 'Type ' + type.toString() + ' not one of the supported ones: ' + JSON.stringify(Object.keys(Type)))
+  if (isValid === false) warn(this, `Expected Type ${type.toString()} for Object path: ${path}`)
+  if (isValid === null) warn(this, `Type ${type.toString()} not one of the supported ones: ${JSON.stringify(Object.keys(Type))}`)
 
   return value
 }
@@ -84,6 +84,6 @@ const validateType = (value, type) => {
 
 const warn = (context, msg) => {
   const callerName = get(context, 'constructor.name', 'unknown')
-  console.warn('[' + callerName + '] - ' + msg)
+  console.warn(`[${callerName}] - ${msg}`)
   context.__problems.push(msg)
 }
